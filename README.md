@@ -1,2 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Z.alhajby tv - البث المباشر للقنوات العربية والرياضية | مباريات حية</title>
+<meta name="description" content="شاهد البث المباشر لقنوات بي إن سبورت والعربية والرياضية - مباريات حية مجاناً - Z.alhajby tv ينقل لك أهم الأحداث الرياضية العربية والعالمية">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Z.alhajby tv — القنوات العربية والرياضية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.9/dist/hls.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- شاشة الترحيب والتسجيل -->
+<div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-content">
+        <div class="welcome-logo">A</div>
+        <h1 class="welcome-title">Z.alhajby tv</h1>
+        <p class="welcome-subtitle">البث المباشر للقنوات العربية والرياضية<br>استمتع بأفضل المحتوى الرياضي والعربي</p>
+        
+        <div class="welcome-features">
+            <div class="feature-item">
+                <i class="fas fa-tv"></i>
+                <span>قنوات رياضية مباشرة</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-futbol"></i>
+                <span>مباريات حية</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-satellite-dish"></i>
+                <span>بي إن سبورت كاملة</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-mobile-alt"></i>
+                <span>متوافق مع جميع الأجهزة</span>
+            </div>
+        </div>
+        
+        <div class="welcome-buttons">
+            <button class="welcome-btn primary" onclick="showLoginForm()">
+                <i class="fas fa-sign-in-alt"></i>
+                تسجيل الدخول
+            </button>
+            <button class="welcome-btn secondary" onclick="showRegisterForm()">
+                <i class="fas fa-user-plus"></i>
+                إنشاء حساب جديد
+            </button>
+            <button class="welcome-btn secondary" onclick="skipLogin()">
+                <i class="fas fa-play"></i>
+                متابعة كزائر
+            </button>
+        </div>
+    </div>
+</div>
 
-#666
+<!-- نموذج التسجيل -->
+<div class="modal" id="registerModal" style="display:none">
+    <div class="card">
+        <div class="modal-header">
+            <h3 style="margin:0">إنشاء حساب جديد</h3>
+            <div class="close-x" onclick="closeRegister()">✖</div>
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">الاسم الكامل</label>
+                <input type="text" class="form-input" id="registerName" placeholder="أدخل اسمك الكامل">
+            </div>
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-input" id="registerEmail" placeholder="example@email.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" class="form-input" id="registerPassword" placeholder="أدخل كلمة المرور">
+            </div>
+            <div class="form-group">
+                <label class="form-label">تأكيد كلمة المرور</label>
+                <input type="password" class="form-input" id="registerConfirmPassword" placeholder="أعد إدخال كلمة المرور">
+            </div>
+            
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="registerAgreement">
+                    <span>أوافق على الشروط والأحكام</span>
+                </label>
+            </div>
+            
+            <button class="login-btn" style="width:100%;margin:10px 0;padding:14px" onclick="register()">
+                <i class="fas fa-user-plus"></i> إنشاء حساب
+            </button>
+            
+            <div class="auth-divider">
+                <span>أو</span>
+            </div>
+            
+            <div class="social-login">
+                <button class="social-btn google" onclick="loginWithGoogle()">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+                <button class="social-btn facebook" onclick="loginWithFacebook()">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                <span>لديك حساب بالفعل؟</span>
+                <a href="#" class="auth-link" onclick="showLoginForm()">تسجيل الدخول</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- الهيدر الرئيسي -->
+<header class="app-header" style="display:none" id="mainHeader">
+    <div class="brand">
+        <div class="logo">A</div>
+        <div>
+            <div class="title">Z.alhajby tv</div>
+            <div class="subtitle small">البث المباشر للقنوات العربية والرياضية</div>
+        </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+        <button class="contact-btn" onclick="toggleDarkMode()" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="login-btn" onclick="showLoginFromApp()" id="loginBtn">
+            <i class="fas fa-user"></i> تسجيل الدخول
+        </button>
+    </div>
+</header>
+
+<!-- المحتوى الرئيسي -->
+<div class="container" id="mainContent" style="display:none">
+    <div class="panel">
+        <h3><i class="fas fa-home"></i>مرحباً بك في Z.alhajby tv</h3>
+        <p class="note">اختر من القائمة أدناه لاستعراض القنوات والمباريات والترتيبات</p>
+    </div>
+</div>
+
+<!-- المشغل الجديد - من الكود الأول -->
+<div class="player-container" id="playerContainer">
+    <div class="player-header">
+        <div class="player-channel-info">
+            <img class="player-channel-logo" id="currentChannelLogo" src="https://i.imgur.com/9WqB67N.png" alt="شعار القناة">
+            <div class="player-channel-name" id="currentChannelName">بي إن سبورت HD 1</div>
+        </div>
+        <button class="close-player" onclick="hidePlayer()">✕</button>
+    </div>
+    
+    <div class="loading" id="loading">
+        <div>⏳ جاري تحميل البث المباشر...</div>
+    </div>
+    
+    <iframe 
+        id="videoPlayer"
+        src=""
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        style="display: none;">
+    </iframe>
+</div>
+
+<!-- شريط التنقل السفلي -->
+<div class="bottom-nav" style="display:none" id="bottomNav">
+    <button id="btnCountries" class="active">
+        <i class="fas fa-globe-asia"></i>
+        <span>الدول</span>
+    </button>
+    <button id="btnSports">
+        <i class="fas fa-tv"></i>
+        <span>عالمية</span>
+    </button>
+    <button id="btnBein">
+        <i class="fas fa-satellite-dish"></i>
+        <span>قنوات رياضيه</span>
+    </button>
+    <button id="btnMatches">
+        <i class="fas fa-futbol"></i>
+        <span>المباريات</span>
+    </button>
+    <button id="btnSettings">
+        <i class="fas fa-cog"></i>
+        <span>الإعدادات</span>
+    </button>
+</div>
+
+<!-- المودالات الأخرى -->
+<div class="modal" id="channelModal">
+    <div class="card">
+        <div class="modal-header">
+            <h3 style="margin:0" id="channelName">اسم القناة</h3>
+            <div class="close-x" onclick="closeModal()">✖</div>
+        </div>
+        <div class="player-wrap">
+            <video id="player" controls playsinline webkit-playsinline></video>
+            <div class="player-info">
+                <div id="nowLabel">جارٍ التحميل...</div>
+                <select class="quality-selector" id="qualitySelector">
+                    <option value="auto">جودة تلقائية</option>
+                    <option value="360">360p</option>
+                    <option value="480">480p</option>
+                    <option value="720">720p</option>
+                    <option value="1080">1080p</option>
+                </select>
+                <div id="playerStatus" class="small">مستعد</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="loginModal">
+    <div class="card">
+        <div class="modal-header">
+            <h3 style="margin:0">تسجيل الدخول</h3>
+            <div class="close-x" onclick="closeLogin()">✖</div>
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label class="form-label">البريد الإلكتروني</label>
+                <input type="email" class="form-input" id="loginEmail" placeholder="example@email.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" class="form-input" id="loginPassword" placeholder="أدخل كلمة المرور">
+            </div>
+            
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <span>تذكرني</span>
+                </label>
+                <a href="#" class="forgot-password">نسيت كلمة المرور؟</a>
+            </div>
+            
+            <button class="login-btn" style="width:100%;margin:10px 0;padding:14px" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+            
+            <div class="auth-divider">
+                <span>أو</span>
+            </div>
+            
+            <div class="social-login">
+                <button class="social-btn google" onclick="loginWithGoogle()">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+                <button class="social-btn facebook" onclick="loginWithFacebook()">
+                    <i class="fab fa-facebook"></i>
+                    Facebook
+                </button>
+            </div>
+            
+            <div class="auth-switch">
+                <span>ليس لديك حساب؟</span>
+                <a href="#" class="auth-link" onclick="showRegisterForm()">إنشاء حساب جديد</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- واجهة المباريات الجديدة -->
+<div class="matches-modal" id="matchesWaitModal">
+    <div class="matches-modal-content">
+        <button class="matches-modal-close" onclick="closeMatchesModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="matches-modal-icon">
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+        <h3>المباراة لم تبدأ بعد</h3>
+        <p>سيكون البث المباشر متاحاً قبل بداية المباراة.</p>
+        <button class="matches-modal-btn" onclick="closeMatchesModal()">
+            <i class="fas fa-check-circle"></i>
+            فهمت
+        </button>
+    </div>
+</div>
+
+<div class="matches-modal" id="matchesNoStreamModal">
+    <div class="matches-modal-content">
+        <button class="matches-modal-close" onclick="closeMatchesModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="matches-modal-icon">
+            <i class="fas fa-video-slash"></i>
+        </div>
+        <h3>لا يوجد بث متاح حالياً</h3>
+        <p>عذراً، لا يتوفر بث مباشر لهذه المباراة في الوقت الحالي.</p>
+        <button class="matches-modal-btn" onclick="closeMatchesModal()">
+            <i class="fas fa-arrow-left"></i>
+            اختيار مباراة أخرى
+        </button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
